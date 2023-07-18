@@ -1,3 +1,0 @@
-'''
-intial python file
-'''
