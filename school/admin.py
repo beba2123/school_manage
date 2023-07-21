@@ -10,6 +10,7 @@ admin.site.register(Family_type)
 admin.site.register(Student_Family)
 admin.site.register(Teacher_subject)
 admin.site.register(Class_subject)
+admin.site.register(Class_room)
 
 
 
