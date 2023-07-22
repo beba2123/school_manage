@@ -6,11 +6,12 @@ class Class_room(models.Model):
     roomName = models.CharField(max_length=50, null=False, blank=False)
     def __str__(self):
         return self.roomName
-class Job_id:
+class Job(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     title = models.CharField(max_length=50, null=False, blank=False)
-
-class Employees:
+    def __str__(self):
+        return self.title
+class Employees(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     firstName = models.CharField(max_length=50, null=False, blank=False)
     middelName = models.CharField(max_length=50, null=False, blank=False)
@@ -20,8 +21,9 @@ class Employees:
     address = models.CharField(max_length=50, null=False, blank=False)
     sex = models.CharField(max_length=1, null=False, blank=False)
     registrationDate = models.DateField(auto_now_add= True)
-    job_id = models.ForeignKey(Job_id)
-
+    Job_id = models.ForeignKey(Job, on_delete= models.SET_NULL, null=True)
+    def __str__(self):
+        return self.firstName
 class Family_type(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     typeName = models.CharField(max_length=50, null=False, blank=False)
@@ -62,7 +64,7 @@ class Teacher(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     employees_id = models.ForeignKey(Employees, on_delete= models.SET_NULL, null=True)
     def __str__(self):
-        return self.firstName
+        return self.employees_id.__str__()
 class Class_subject(models.Model):
     classRoomId = models.ForeignKey(Class_room, on_delete=models.SET_NULL, null=True, blank=False)
     subjectId = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=False)
@@ -70,7 +72,7 @@ class Class_subject(models.Model):
         return self.classRoomId.__str__() + ' ' + self.subjectId.__str__()
 class Teacher_subject(models.Model):
     teacherId = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=False)
-    subjectId = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=False)
+    subjectId = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=False)
     def __str__(self):
         return self.teacherId.__str__() + ' ' + self.subjectId.__str__()
 
